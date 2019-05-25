@@ -19,7 +19,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         playerMoving = false;
-        if(Input.GetAxisRaw("Horizontal") > 0.5 || Input.GetAxisRaw("Horizontal") < -0.5)
+
+
+        if ((Input.GetAxisRaw("Horizontal") > 0.5 || Input.GetAxisRaw("Horizontal") < -0.5) && (Input.GetAxisRaw("Vertical") > 0.5 || Input.GetAxisRaw("Vertical") < -0.5))
+        {
+            transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Mathf.Sqrt(.5f) * Time.deltaTime, Input.GetAxisRaw("Vertical") * moveSpeed * Mathf.Sqrt(.5f) * Time.deltaTime, 0f));
+            playerMoving = true;
+            lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+
+        else if (Input.GetAxisRaw("Horizontal") > 0.5 || Input.GetAxisRaw("Horizontal") < -0.5)
         {
             transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f,0f));
             playerMoving = true;
@@ -27,17 +36,17 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (Input.GetAxisRaw("Vertical") > 0.5 || Input.GetAxisRaw("Vertical") < -0.5)
+        else if (Input.GetAxisRaw("Vertical") > 0.5 || Input.GetAxisRaw("Vertical") < -0.5)
         {
             transform.Translate(new Vector3(0f,Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
             playerMoving = true;
             lastMove = new Vector2(0F, Input.GetAxisRaw("Vertical"));
         }
 
-       // anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
-       // anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
+        // anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
+        // anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
         //anim.SetBool("PlayerMoving", playerMoving);
-       // anim.SetFloat("LastMoveX", lastMove.x);
+        // anim.SetFloat("LastMoveX", lastMove.x);
         //anim.SetFloat("LastMoveY", lastMove.y);
     }
 }
