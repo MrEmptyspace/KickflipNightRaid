@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour  
 {
-
     public float moveSpeed;
     private Animator anim;
     private bool playerMoving;
@@ -19,29 +18,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         playerMoving = false;
-
-
-        if ((Input.GetAxisRaw("Horizontal") > 0.5 || Input.GetAxisRaw("Horizontal") < -0.5) && (Input.GetAxisRaw("Vertical") > 0.5 || Input.GetAxisRaw("Vertical") < -0.5))
+        if ((Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5) || (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.5))
         {
-            transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Mathf.Sqrt(.5f) * Time.deltaTime, Input.GetAxisRaw("Vertical") * moveSpeed * Mathf.Sqrt(.5f) * Time.deltaTime, 0f));
+            Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            move = move.normalized * Time.deltaTime * moveSpeed;//walkspeed, runspeed, etc.
+            transform.Translate(move);
             playerMoving = true;
             lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
 
-        else if (Input.GetAxisRaw("Horizontal") > 0.5 || Input.GetAxisRaw("Horizontal") < -0.5)
-        {
-            transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f,0f));
-            playerMoving = true;
-            lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), 0F);
-
-        }
-
-        else if (Input.GetAxisRaw("Vertical") > 0.5 || Input.GetAxisRaw("Vertical") < -0.5)
-        {
-            transform.Translate(new Vector3(0f,Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-            playerMoving = true;
-            lastMove = new Vector2(0F, Input.GetAxisRaw("Vertical"));
-        }
 
         // anim.SetFloat("MoveX",Input.GetAxisRaw("Horizontal"));
         // anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
